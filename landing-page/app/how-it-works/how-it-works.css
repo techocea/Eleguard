@@ -1,0 +1,392 @@
+.how-it-works-page {
+  background-color: var(--background);
+}
+
+/* Hero */
+.hiw-hero {
+  padding: 80px 0 60px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--background) 0%, #EBF5EB 100%);
+}
+
+.hiw-hero-title {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.hiw-hero-description {
+  font-size: 18px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Steps Timeline */
+.steps-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-card-large {
+  background-color: var(--surface);
+  border-radius: var(--card-radius);
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  position: relative;
+  width: 100%;
+  transition: var(--transition);
+}
+
+.step-card-large:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+.step-number-large {
+  position: absolute;
+  top: -16px;
+  left: 32px;
+  width: 32px;
+  height: 32px;
+  background-color: var(--primary-green);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-icon-large {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  background-color: var(--light-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-icon-large svg {
+  width: 40px;
+  height: 40px;
+  color: var(--primary-green);
+}
+
+.step-title-large {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.step-description-large {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.timeline-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.connector-line {
+  width: 2px;
+  height: 24px;
+  background-color: var(--secondary-green);
+}
+
+.connector-arrow svg {
+  width: 24px;
+  height: 24px;
+  color: var(--secondary-green);
+  transform: rotate(90deg);
+}
+
+/* Technology Section */
+.hiw-technology {
+  background-color: var(--surface);
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.tech-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.tech-description {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.tech-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tech-features li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.tech-features svg {
+  color: var(--primary-green);
+  flex-shrink: 0;
+}
+
+/* Sensor Illustration */
+.sensor-illustration {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 300px;
+  position: relative;
+}
+
+.sensor-device {
+  position: relative;
+  z-index: 2;
+}
+
+.sensor-antenna {
+  width: 4px;
+  height: 40px;
+  background-color: var(--text-secondary);
+  margin: 0 auto 8px;
+  border-radius: 2px;
+}
+
+.sensor-body {
+  width: 60px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--primary-green) 0%, #1B5E20 100%);
+  border-radius: 8px;
+}
+
+.sensor-stake {
+  width: 8px;
+  height: 60px;
+  background-color: var(--text-secondary);
+  margin: 0 auto;
+  border-radius: 0 0 4px 4px;
+}
+
+.vibration-waves {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.wave {
+  position: absolute;
+  border: 2px solid var(--secondary-green);
+  border-radius: 50%;
+  animation: wave-pulse 2s ease-out infinite;
+}
+
+.wave-1 {
+  width: 100px;
+  height: 100px;
+  left: -50px;
+  top: -50px;
+  animation-delay: 0s;
+}
+
+.wave-2 {
+  width: 160px;
+  height: 160px;
+  left: -80px;
+  top: -80px;
+  animation-delay: 0.5s;
+}
+
+.wave-3 {
+  width: 220px;
+  height: 220px;
+  left: -110px;
+  top: -110px;
+  animation-delay: 1s;
+}
+
+@keyframes wave-pulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+/* Benefits */
+.hiw-benefits {
+  background-color: var(--background);
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.benefit-card {
+  background-color: var(--surface);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.benefit-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+.benefit-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  background-color: var(--light-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.benefit-icon svg {
+  width: 28px;
+  height: 28px;
+  color: var(--primary-green);
+}
+
+.benefit-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.benefit-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* CTA */
+.hiw-cta-card {
+  background: linear-gradient(135deg, var(--primary-green) 0%, #1B5E20 100%);
+  border-radius: 28px;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.hiw-cta-card h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.hiw-cta-card p {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 32px;
+}
+
+.hiw-cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.hiw-cta-buttons .btn-primary {
+  background-color: white;
+  color: var(--primary-green);
+}
+
+.hiw-cta-buttons .btn-secondary {
+  background-color: transparent;
+  color: white;
+  border-color: white;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .tech-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hiw-hero-title {
+    font-size: 36px;
+  }
+  
+  .step-card-large {
+    padding: 32px 24px;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .hiw-cta-card {
+    padding: 48px 24px;
+  }
+  
+  .hiw-cta-card h2 {
+    font-size: 28px;
+  }
+  
+  .hiw-cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .hiw-cta-buttons .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}
