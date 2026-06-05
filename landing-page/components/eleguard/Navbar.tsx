@@ -43,10 +43,10 @@ export default function Navbar() {
         </div>
 
         <div className="navbar-actions">
-          <Link href="/contact" className="btn-login">
+          <Link href="/login" className="btn-login">
             Login
           </Link>
-          <Link href="/contact" className="btn-register">
+          <Link href="/register" className="btn-register">
             Register
           </Link>
         </div>
