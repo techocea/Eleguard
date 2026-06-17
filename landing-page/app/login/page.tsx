@@ -10,8 +10,8 @@ import {
   Wifi,
   MapPin,
 } from "lucide-react";
-import { useAuth, User } from "@/hooks/use-auth";
-import api from "@/services/api";
+import { useAuth } from "@/hooks/use-auth";
+import api, { loginUser } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +26,6 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
   const { login } = useAuth();
-
   const router = useRouter();
   const [tab, setTab] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
@@ -38,28 +37,21 @@ const Login = () => {
     setError("");
 
     try {
-      const res = await api.post("/auth/login", data);
+      const res = await loginUser(data);
       const token = res.data.access_token;
       const user = res.data.user || {
-        id: "1",
-        name: data.username,
+        username: data.username,
         role: "USER",
       };
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
       login(token, user);
-      window.location.href = `${process.env.DASHBOARD_URL}/dashboard`;
+      router.push("/dashboard");
     } catch (err) {
-      if (data.username && data.password) {
-        const demoToken = "demo_jwt_token_" + Date.now();
-        const demoUser: User = {
-          id: "1",
-          name: data.username || "Farm Manager",
-          role: "USER",
-        };
-        login(demoToken, demoUser);
-        window.location.href = `${process.env.DASHBOARD_URL}/dashboard`;
-      } else {
-        setError("Invalid username or password");
-      }
+      setError("Invalid username or password");
+      console.error("Login error:", err);
     } finally {
       setLoading(false);
     }

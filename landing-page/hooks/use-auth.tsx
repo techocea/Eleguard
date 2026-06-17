@@ -1,26 +1,22 @@
 "use client";
 
+import { UserCredentials } from "@/types";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-//added types for the user here
-export interface User {
-  id: string;
-  name: string;
-  role: "USER" | "ADMIN";
-}
+
 
 interface AuthContextType {
-  user: User | null;
+  user: UserCredentials | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (tokenValue: string, userData: User) => void;
+  login: (tokenValue: string, userData: UserCredentials) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserCredentials | null>(null);
   const [token, setToken] = useState<string | "">("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,13 +32,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             : { id: "1", name: "Farm Manager", role: "USER" },
         );
       } catch {
-        setUser({ id: "1", name: "Farm Manager", role: "USER" });
+        setUser({ username: "Farm Manager",  role: "USER" });
       }
     }
     setIsLoading(false);
   }, []);
 
-  const login = (tokenValue: string, userData: User) => {
+  const login = (tokenValue: string, userData: UserCredentials) => {
     localStorage.setItem("token", tokenValue);
     localStorage.setItem("user", JSON.stringify(userData));
     setToken(tokenValue);

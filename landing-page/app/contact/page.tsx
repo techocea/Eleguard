@@ -3,8 +3,13 @@
 import { useState, FormEvent } from 'react'
 import Navbar from '@/components/eleguard/Navbar'
 import Footer from '@/components/eleguard/Footer'
-import MapComponent from '@/components/eleguard/MapComponent'
 import './contact.css'
+import dynamic from 'next/dynamic';
+
+const MapComponent = dynamic(
+  () => import('@/components/eleguard/MapComponent'),
+  { ssr: false }
+)
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({

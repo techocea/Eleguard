@@ -1,5 +1,9 @@
-import { User } from "@/hooks/use-auth";
-import axios from "axios";
+import { UserCredentials } from "@/types";
+import axios, {
+  AxiosError,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
 
 const BASE_URL = process.env.BASE_API_URL!;
 
@@ -13,32 +17,35 @@ const api = axios.create({
 
 // Request interceptor — attach JWT token
 api.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem("token");
-    if (token) {
+    if (token && config.headers) {
+      // Use standard headers assignment compatible with newer Axios setups
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  (error: AxiosError) => Promise.reject(error),
 );
 
 // Response interceptor — handle 401
 api.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  (response: AxiosResponse) => response,
+  (error: AxiosError) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      window.location.href = "/login";
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
     }
     return Promise.reject(error);
   },
 );
 
 // Auth
-export const loginUser = (credentials: User) =>
-  api.post("/auth/login", credentials);
+export const loginUser = (credentials: UserCredentials) =>
+  api.post("/auth/v1/login", credentials);
 
 // Sensor data
 export const getActiveSensors = () => api.get("/sensors/active");
