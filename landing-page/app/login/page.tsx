@@ -37,21 +37,41 @@ const Login = () => {
     setError("");
 
     try {
-      const res = await loginUser(data);
-      const token = res.data.access_token;
-      const user = res.data.user || {
+      const res = await loginUser({
         username: data.username,
-        role: "USER",
+        password: data.password,
+      });
+
+      console.log("full response", res.data);
+
+      const { access_token, refresh_token, error, message } = res.data;
+
+      if (error === true) throw new Error(message || "Authentication failed");
+
+      if (!access_token)
+        throw new Error("No token returned from backend server");
+
+      const userPayload = {
+        id: res.data.id || res.data.userId,
+        name: res.data.name || res.data.username || "Farm Manager",
+        token: access_token,
       };
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", access_token);
+      if (refresh_token) {
+        localStorage.setItem("refresh_token", refresh_token);
+      }
+      localStorage.setItem("user", JSON.stringify(userPayload));
 
-      login(token, user);
+      login(access_token, userPayload);
       router.push("/dashboard");
-    } catch (err) {
-      setError("Invalid username or password");
+    } catch (err: any) {
       console.error("Login error:", err);
+      setError(
+        err.response?.data.message ||
+          err.message ||
+          "Authentication failed, please check your credentials",
+      );
     } finally {
       setLoading(false);
     }

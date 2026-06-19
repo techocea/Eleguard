@@ -1,11 +1,11 @@
-import { UserCredentials } from "@/types";
+import { LoginCredentials } from "@/types";
 import axios, {
   AxiosError,
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
 
-const BASE_URL = process.env.BASE_API_URL!;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -20,7 +20,6 @@ api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem("token");
     if (token && config.headers) {
-      // Use standard headers assignment compatible with newer Axios setups
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -44,23 +43,24 @@ api.interceptors.response.use(
 );
 
 // Auth
-export const loginUser = (credentials: UserCredentials) =>
-  api.post("/auth/v1/login", credentials);
+export const loginUser = (credentials: LoginCredentials) =>
+  api.post("/api/v1/auth/login", credentials);
 
 // Sensor data
-export const getActiveSensors = () => api.get("/sensors/active");
+export const getActiveSensors = () => api.get("/api/v1/sensors/active");
 export const getSensorHistory = (params: Record<string, unknown>) =>
-  api.get("/sensors/history", { params });
+  api.get("/api/v1/sensors/history", { params });
 
 // AI Prediction
-export const getPrediction = (data: unknown) => api.post("/prediction", data);
+export const getPrediction = (data: unknown) =>
+  api.post("/api/v1/prediction", data);
 
 // Farm Info
 export const submitFarmInfo = (data: unknown) =>
-  api.post("/api/user/farm-info", data);
-export const getFarmInfo = () => api.get("/api/user/farm-info");
+  api.post("/api/v1/user/farm-info", data);
+export const getFarmInfo = () => api.get("/api/v1/user/farm-info");
 export const updateFarmInfo = (data: unknown) =>
-  api.put("/api/user/farm-info", data);
+  api.put("/api/v1/user/farm-info", data);
 
 // Mock data for development (when backend unavailable)
 export const mockSensorData = () => ({

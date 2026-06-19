@@ -1,22 +1,33 @@
 "use client";
 
-import { UserCredentials } from "@/types";
+import { User, UserRole } from "@/types";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-
-
 interface AuthContextType {
-  user: UserCredentials | null;
+  user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (tokenValue: string, userData: UserCredentials) => void;
+  login: (
+    tokenValue: string,
+    userData: Omit<User, "role"> & { role?: UserRole },
+  ) => void;
   logout: () => void;
 }
+
+const deocdeRoleFromToken = (token: string): UserRole => {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const raw = payload.role || payload.user_role || payload.authorities?.[0];
+    return raw === "ADMIN" ? "ADMIN" : "USER";
+  } catch (error) {
+    return "USER";
+  }
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<UserCredentials | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | "">("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,20 +40,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(
           storedUser
             ? JSON.parse(storedUser)
-            : { id: "1", name: "Farm Manager", role: "USER" },
+            : { token:storedToken, name: "Farm Manager", role: "USER" },
         );
       } catch {
-        setUser({ username: "Farm Manager",  role: "USER" });
+        setUser( { token:storedToken, name: "Farm Manager", role: "USER" });
       }
     }
     setIsLoading(false);
   }, []);
 
-  const login = (tokenValue: string, userData: UserCredentials) => {
+  const login = (
+    tokenValue: string,
+    userData: Omit<User, "role"> & { role?: UserRole },
+  ) => {
+    const authenticatedUser: User = {
+      ...userData,
+      role: userData.role ?? "USER",
+    };
+
     localStorage.setItem("token", tokenValue);
-    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("user", JSON.stringify(authenticatedUser));
     setToken(tokenValue);
-    setUser(userData);
+    setUser(authenticatedUser);
   };
 
   const logout = () => {

@@ -180,8 +180,16 @@ declare const toast: {
   error: (msg: string) => void;
 };
 
-export interface UserCredentials {
-  username?: string;
-  password?: string;
-  role?: "USER" | "ADMIN";
+export type UserRole = "USER" | "ADMIN";
+
+export interface User {
+  id?: string;
+  name: string;
+  token: string;
+  role?: UserRole;
+}
+
+export interface LoginCredentials {
+  username: string;
+  password: string;
 }
